@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [posts, setPosts] = useState([]);
-
   type Post = {
     _id: string;
     title: string;
@@ -14,6 +12,8 @@ export default function Home() {
     image: string;
     short_description: string;
   };
+
+  const [posts, setPosts] = useState<Post[] | null>(null);
 
   useEffect(() => {
     fetch(process.env.NEXT_PUBLIC_API_URL + "/api/posts")
@@ -41,21 +41,22 @@ export default function Home() {
         </button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {(posts as Post[]).map((post, index) => (
-          <Link href={'/post/' + post._id} key={index}>
-          <div key={index} className="border border-gray-200 p-4">
-            <Image
-              className="w-full h-48 object-cover mb-4"
-              src={post.image}
-              alt={post.title}
-              width={400}
-              height={192}
-            />
-            <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-            <p className="text-gray-600">{post.short_description}</p>
-          </div>
-          </Link>
-        ))}
+        {posts &&
+          posts.map((post, index) => (
+            <Link href={"/post/" + post._id} key={index}>
+              <div key={index} className="border border-gray-200 p-4">
+                <Image
+                  className="w-full h-48 object-cover mb-4"
+                  src={post.image}
+                  alt={post.title}
+                  width={400}
+                  height={192}
+                />
+                <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+                <p className="text-gray-600">{post.short_description}</p>
+              </div>
+            </Link>
+          ))}
       </div>
     </>
   );
