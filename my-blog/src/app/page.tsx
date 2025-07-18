@@ -1,15 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
 
   type Post = {
+    _id: string;
     title: string;
     description: string;
     image: string;
+    short_description: string;
   };
 
   useEffect(() => {
@@ -23,8 +26,8 @@ export default function Home() {
       <main className="container mx-auto px-4 py-6">
         <h2 className="text-4xl font-bold mb-4">Welcome to Our Blog</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          A personal blog sharing thoughts and insights on cricketers, actors,
+          and music composers — celebrating talent and creativity across fields
         </p>
       </main>
       <div className="flex justify-end px-4">
@@ -39,6 +42,7 @@ export default function Home() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {(posts as Post[]).map((post, index) => (
+          <Link href={'/post/' + post._id} key={index}>
           <div key={index} className="border border-gray-200 p-4">
             <Image
               className="w-full h-48 object-cover mb-4"
@@ -48,8 +52,9 @@ export default function Home() {
               height={192}
             />
             <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-            <p className="text-gray-600">{post.description}</p>
+            <p className="text-gray-600">{post.short_description}</p>
           </div>
+          </Link>
         ))}
       </div>
     </>

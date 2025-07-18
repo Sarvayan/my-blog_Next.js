@@ -18,9 +18,9 @@ export default function Header() {
                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
               </svg>
               <Link href="/">
-              <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                Insightful Blog
-              </h1>
+                <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                  Insightful Blog
+                </h1>
               </Link>
             </div>
 
@@ -32,7 +32,7 @@ export default function Header() {
               >
                 Home
               </Link>
-             
+
               <Link
                 href="/about"
                 className="text-white hover:text-blue-200 transition-colors duration-300 font-medium px-3 py-2 rounded-lg hover:bg-white/10 text-sm md:text-base"
