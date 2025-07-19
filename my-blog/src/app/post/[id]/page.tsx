@@ -1,48 +1,57 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from "react";
 import Image from "next/image";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-type Post = {
-  _id: string;
-  title: string;
-  description: string;
-  image: string;
-  createdAt_format: string;
-};
+function Page(context: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(context.params);
 
-function Page({ params }: { params: { id: string } }) {
+  type Post = {
+    _id: string;
+    title: string;
+    description: string;
+    image: string;
+    createdAt_format: string;
+  };
 
-    const [post, setPost] = React.useState<Post | null>(null);
+  const [post, setPost] = React.useState<Post | null>(null);
 
-    useEffect(() => {
-        fetch(process.env.NEXT_PUBLIC_API_URL + "/api/post/" + params.id)
-          .then((response) => response.json())
-          .then((response) => setPost(response))
-          .catch((error) => console.error("Error fetching posts:", error));
-      }, [params.id]);
+  console.log(id);
 
+  useEffect(() => {
+    fetch(process.env.NEXT_PUBLIC_API_URL + "/api/post/" + id)
+      .then((response) => response.json())
+      .then((response) => setPost(response))
+      .catch((error) => console.error("Error fetching posts:", error));
+  }, [id]);
+
+  console.log("Post data:", post);
   return (
     <>
       {post ? (
         <>
           <h2 className="text-4xl font-bold mb-4">{post.title}</h2>
           <p className="text-gray-500">Published on {post.createdAt_format}</p>
-          <Image
-            className="w-full h-48 object-cover mb-4"
-            src={post.image}
-            alt={post.title}
-            width={400}
-            height={192}
-          />
+          {post.image && (
+            <div className="w-full max-w-3xl mx-auto">
+              <Image
+                className="w-full object-contain mb-4"
+                src={post.image}
+                alt={post.title}
+                width={800}
+                height={0}
+                sizes="100vw"
+              />
+            </div>
+          )}
           <p>{post.description}</p>
         </>
       ) : (
         <p>Loading...</p>
       )}
     </>
-  )
+  );
 }
 
-export default Page
+export default Page;
